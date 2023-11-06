@@ -4,7 +4,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 /**
  * **Class Description:**
 This class allows you to perform CRUD operations (GET, POST, DELETE, PATCH) 
@@ -73,7 +79,7 @@ This class allows encapsulation of data and operations,
             HttpSimpleCrudClient.connection = connection;
       }
 //____________________________________________________________________________________________ 
-      // Returns a List of Objects      
+      // Returns all Objects and loads to the console 
       public static void getObjects(URL newUrl){
             try {
                   // Create a URL object with the target URL
@@ -103,6 +109,44 @@ This class allows encapsulation of data and operations,
             } catch (IOException e) {
                   System.err.println(e+" connection is faul");
             }
+      }
+//____________________________________________________________________________________________
+      // // Returns a List of Objects and loads to the console - suitable for working with a table
+      //  through DefaultTableModel 
+      public static List<Object> getObjectsList(URL newUrl) {
+            URL url;
+            List<Object> items = new ArrayList<>();
+            try {
+                  // Create a URL object with the target URL
+                  url= new URL(newUrl.toString());
+                  // Open a connection to the URL
+                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                  connection.setRequestMethod("GET");
+                  int responseCode = connection.getResponseCode();
+                  System.out.println("Response Code: " + responseCode);
+
+                  if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Read the response from the server
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        String line;
+                        StringBuffer response = new StringBuffer();
+                        while ((line = reader.readLine()) != null) {
+                              response.append(line);
+                        }
+                        Gson gson = new Gson();
+                        items = gson.fromJson(response.toString(), new TypeToken<List<Object>>(){}.getType());
+                        reader.close();
+                        // Print the response
+                        System.out.println("Response Body:");
+                        System.out.println(response.toString());
+                    } else {
+                        System.out.println("GET request failed.");
+                    }
+                       connection.disconnect();  
+            } catch (IOException e) {
+                  System.err.println(e+" connection is faul");
+            }
+            return items;
       }
 //____________________________________________________________________________________________
      // Returns one Object according to the specified id

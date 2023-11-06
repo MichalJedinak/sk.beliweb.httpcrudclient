@@ -18,6 +18,7 @@ public class App {
         HttpSimpleCrudClient.getObjects(new URL("http://localhost:8080..."));
         HttpSimpleCrudClient.updateObject(new URL("http://localhost:8080...."),1,new Object());
         HttpSimpleCrudClient.deleteObject(new URL("http://localhost:8080..."), 0); */
+       // HttpSimpleCrudClient.getObjectsList(new URL("http://localhost:8080/item"));
     }
 
 }

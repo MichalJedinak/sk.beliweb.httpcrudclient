@@ -5,6 +5,9 @@
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "lib/**/*.jar",
+        "c:\\Users\\BigON\\Documents\\JAR JAVA\\Gson\\gson-2.10.1.jar",
+        "c:\\Users\\BigON\\Documents\\JAR JAVA\\Gson\\gson-2.10.1-javadoc.jar",
+        "c:\\Users\\BigON\\Documents\\JAR JAVA\\Gson\\gson-2.10.1-sources.jar"
     ]
 }
